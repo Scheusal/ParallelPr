@@ -27,7 +27,7 @@ TEST(Jacoby_Method, Test_can_gaussian_filter) {
     image1_decimal[52] = 3;    image1_decimal[53] = 9; image1_decimal[54] = 1; image1_decimal[55] = 4;
     image1_decimal[56] = 6;    image1_decimal[57] = 50; image1_decimal[58] = 2; image1_decimal[59] = 4;
     image1_decimal[60] = 3;    image1_decimal[61] = 9; image1_decimal[62] = 1; image1_decimal[63] = 4;
-    ASSERT_NO_THROW(gaussianFilter(image1_decimal, height, width, radius, sigma));
+    ASSERT_NO_THROW(gaussianFilterSeq(image1_decimal, height, width, radius, sigma));
 }
 
 TEST(Jacoby_Method, Test_check_gaussian_filter) {
@@ -54,7 +54,8 @@ TEST(Jacoby_Method, Test_check_gaussian_filter) {
     image1_decimal[52] = 3;    image1_decimal[53] = 9; image1_decimal[54] = 1; image1_decimal[55] = 4;
     image1_decimal[56] = 6;    image1_decimal[57] = 50; image1_decimal[58] = 2; image1_decimal[59] = 4;
     image1_decimal[60] = 3;    image1_decimal[61] = 9; image1_decimal[62] = 1; image1_decimal[63] = 4;
-    image2_decimal = gaussianFilter(image1_decimal, height, width, radius, sigma);
+    image2_decimal = gaussianFilterSeq(image1_decimal, height, width, radius, sigma);
+
     check[0] = 46; check[1] = 51; check[2] = 30; check[3] = 30;
     check[4] = 5; check[5] = 58; check[6] = 58; check[7] = 55;
     check[8] = 42; check[9] = 53; check[10] = 38; check[11] = 30;

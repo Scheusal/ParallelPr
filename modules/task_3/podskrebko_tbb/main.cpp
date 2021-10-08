@@ -88,7 +88,7 @@ TEST(Gaussian_Method, Test_check_work_with_rectangle_matrix) {
 TEST(Gaussian_Method, Test_check_gaussian_filter) {
     int radius = 1;
     float sigma = 5.0;
-    int count_thread = 3;
+    int count_thread;
     int height = 8;
     int width = 8;
     std::vector<int> image1_decimal(height * width);
@@ -110,12 +110,22 @@ TEST(Gaussian_Method, Test_check_gaussian_filter) {
     image1_decimal[52] = 3;    image1_decimal[53] = 9; image1_decimal[54] = 1; image1_decimal[55] = 4;
     image1_decimal[56] = 6;    image1_decimal[57] = 50; image1_decimal[58] = 2; image1_decimal[59] = 4;
     image1_decimal[60] = 3;    image1_decimal[61] = 9; image1_decimal[62] = 1; image1_decimal[63] = 4;
-    // double t1, t2, dt;
-    // t1 = omp_get_wtime();
-    image2_decimal = gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread);
-    // t2 = omp_get_wtime();
-    // dt = t2 - t1;
-    // std::cout << dt;
+
+    double t1, t2, dt;
+    t1 = omp_get_wtime();
+    image2_decimal = gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread = 4);
+    t2 = omp_get_wtime();
+    dt = t2 - t1;
+    std::cout << std::endl << "Gaussian Filter Using TBB = " << dt << std::endl;
+
+    double r1, r2, dr;
+    r1 = omp_get_wtime();
+    image2_decimal = gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread = 1);
+    r2 = omp_get_wtime();
+    dr = r2 - r1;
+    std::cout << "Gaussian Filter Without TBB = " << dr << std::endl << std::endl;
+
+
     check[0] = 46; check[1] = 51; check[2] = 30; check[3] = 30;
     check[4] = 5; check[5] = 58; check[6] = 58; check[7] = 55;
     check[8] = 42; check[9] = 53; check[10] = 38; check[11] = 30;

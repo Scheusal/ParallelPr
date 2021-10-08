@@ -7,11 +7,13 @@
 #include"./filter_gaussa_block.h"
 
 TEST(Gaussian_Method, Test_can_gaussian_filter) {
+
     int radius = 1;
     float sigma = 5.0;
     int height = 8;
-    int count_thread = 3;
+    int count_thread = 4;
     int width = 8;
+
     std::vector<int> image1_decimal(height * width);
     image1_decimal[0] = 61; image1_decimal[1] = 2; image1_decimal[2] = 3; image1_decimal[3] = 4;
     image1_decimal[4] = 6; image1_decimal[5] = 8; image1_decimal[6] = 240; image1_decimal[7] = 2;
@@ -29,17 +31,20 @@ TEST(Gaussian_Method, Test_can_gaussian_filter) {
     image1_decimal[52] = 3;    image1_decimal[53] = 9; image1_decimal[54] = 1; image1_decimal[55] = 4;
     image1_decimal[56] = 6;    image1_decimal[57] = 50; image1_decimal[58] = 2; image1_decimal[59] = 4;
     image1_decimal[60] = 3;    image1_decimal[61] = 9; image1_decimal[62] = 1; image1_decimal[63] = 4;
+
     ASSERT_NO_THROW(gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread));
 }
 TEST(Gaussian_Method, Test_check_work_with_rectangle_matrix) {
     int radius = 1;
     float sigma = 5.0;
-    int count_thread = 8;
+    int count_thread;
     int height = 8;
     int width = 9;
+
     std::vector<int> image1_decimal(height * width);
     std::vector<int> image2_decimal(height * width);
     std::vector<int> check(height * width);
+
     image1_decimal[0] = 61; image1_decimal[1] = 2; image1_decimal[2] = 3; image1_decimal[3] = 4;
     image1_decimal[4] = 6; image1_decimal[5] = 8; image1_decimal[6] = 240; image1_decimal[7] = 2;
     image1_decimal[8] = 84; image1_decimal[9] = 6; image1_decimal[10] = 250; image1_decimal[11] = 3;
@@ -59,12 +64,23 @@ TEST(Gaussian_Method, Test_check_work_with_rectangle_matrix) {
 
     image1_decimal[64] = 6;    image1_decimal[65] = 50; image1_decimal[66] = 2; image1_decimal[67] = 4;
     image1_decimal[68] = 3;    image1_decimal[69] = 9; image1_decimal[70] = 1; image1_decimal[71] = 4;
-    // double t1, t2, dt;
-    // t1 = omp_get_wtime();
-    image2_decimal = gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread);
-    // t2 = omp_get_wtime();
-    // dt = t2 - t1;
-    // std::cout << dt;
+
+    double t1, t2, dt;
+    t1 = omp_get_wtime();
+    image2_decimal = gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread = 4);
+    t2 = omp_get_wtime();
+    dt = t2 - t1;
+    std::cout << std::endl << "Gaussian Filter Using Omp = "<< dt <<std::endl;
+
+   double r1, r2, dr;
+    r1 = omp_get_wtime();
+    image2_decimal = gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread = 1);
+    r2 = omp_get_wtime();
+    dr = r2 - r1;
+    std::cout << "Gaussian Filter Without Omp = " << dr << std::endl << std::endl;
+    
+
+
     check[0] = 56; check[1] = 43; check[2] = 29; check[3] = 4;
     check[4] = 5; check[5] = 58; check[6] = 58; check[7] = 80;
     check[8] = 53; check[9] = 43; check[10] = 37; check[11] = 31;
@@ -83,22 +99,25 @@ TEST(Gaussian_Method, Test_check_work_with_rectangle_matrix) {
     check[60] = 4;    check[61] = 4; check[62] = 4; check[63] = 3;
     check[64] = 14;    check[65] = 19; check[66] = 18; check[67] = 8;
     check[68] = 4;    check[69] = 4; check[70] = 4; check[71] = 3;
+
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
+
             ASSERT_EQ(image2_decimal[i * width + j], check[i * width + j]);
         }
     }
 }
-
 TEST(Gaussian_Method, Test_check_gaussian_filter) {
     int radius = 1;
     float sigma = 5.0;
-    int count_thread = 3;
+    int count_thread;
     int height = 8;
     int width = 8;
+
     std::vector<int> image1_decimal(height * width);
     std::vector<int> image2_decimal(height * width);
     std::vector<int> check(height * width);
+
     image1_decimal[0] = 61; image1_decimal[1] = 2; image1_decimal[2] = 3; image1_decimal[3] = 4;
     image1_decimal[4] = 6; image1_decimal[5] = 8; image1_decimal[6] = 240; image1_decimal[7] = 2;
     image1_decimal[8] = 84; image1_decimal[9] = 6; image1_decimal[10] = 250; image1_decimal[11] = 3;
@@ -115,12 +134,16 @@ TEST(Gaussian_Method, Test_check_gaussian_filter) {
     image1_decimal[52] = 3;    image1_decimal[53] = 9; image1_decimal[54] = 1; image1_decimal[55] = 4;
     image1_decimal[56] = 6;    image1_decimal[57] = 50; image1_decimal[58] = 2; image1_decimal[59] = 4;
     image1_decimal[60] = 3;    image1_decimal[61] = 9; image1_decimal[62] = 1; image1_decimal[63] = 4;
-    // double t1, t2, dt;
-    // t1 = omp_get_wtime();
-    image2_decimal = gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread);
-    // t2 = omp_get_wtime();
-    // dt = t2 - t1;
-    // std::cout << dt;
+
+    
+    double t1, t2, dt;
+    t1 = omp_get_wtime();
+    image2_decimal = gaussianFilter(image1_decimal, width, height, radius, sigma, count_thread = 4);
+    t2 = omp_get_wtime();
+    dt = t2 - t1;
+//    std::cout << std::endl << "Gaussian Filter Using Omp = " << dt << std::endl << std::endl; 
+    
+
     check[0] = 46; check[1] = 51; check[2] = 30; check[3] = 30;
     check[4] = 5; check[5] = 58; check[6] = 58; check[7] = 55;
     check[8] = 42; check[9] = 53; check[10] = 38; check[11] = 30;
@@ -137,18 +160,22 @@ TEST(Gaussian_Method, Test_check_gaussian_filter) {
     check[52] = 5;    check[53] = 4; check[54] = 4; check[55] = 3;
     check[56] = 40;    check[57] = 30; check[58] = 20; check[59] = 3;
     check[60] = 5;    check[61] = 4; check[62] = 4; check[63] = 3;
+
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
+
             ASSERT_EQ(image2_decimal[i * width + j], check[i * width + j]);
         }
     }
 }
 TEST(Gaussian_Method, Test_can_Clamp) {
     int val1 = -1;
+
     ASSERT_NO_THROW(Clamp(val1, 0, 255));
 }
 TEST(Gaussian_Method, Test_check_Clamp) {
     int val1 = -1;
+
     ASSERT_EQ(Clamp(val1, 0, 255), 0);
     ASSERT_EQ(Clamp(val1, -5, 30), -1);
     ASSERT_EQ(Clamp(val1, -5, -3), -3);
@@ -157,5 +184,6 @@ TEST(Gaussian_Method, Test_check_Clamp) {
 TEST(Gaussian_Method, Can_creating_Gaussian_Kernel) {
     int radius = 1;
     float sigma = 5.0;
+
     ASSERT_NO_THROW(createGaussianKernel(radius, sigma));
 }
