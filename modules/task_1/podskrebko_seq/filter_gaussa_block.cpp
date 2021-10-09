@@ -57,6 +57,9 @@ int calculateNewPixelColor(std::vector<int> img, int width, int height,
     }
     return Clamp(static_cast<int>(sumColor), 0, 255);
 }
+
+// Проверка границ 
+
 int Clamp(int value, int min, int max) {
     if (value < min) {
         return min;
