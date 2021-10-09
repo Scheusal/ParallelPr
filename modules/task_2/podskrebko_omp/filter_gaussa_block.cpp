@@ -6,6 +6,8 @@
 #include <tuple>
 #include "../../../modules/task_2/podskrebko_omp/filter_gaussa_block.h"
 
+// ‘ункци€, реализующа€ OMP версию, здесь вычисл€ютс€ координаты и размеры блоков, вузываетс€ функци€ создани€ €дра + распаралл.-€
+
 std::vector<int> gaussianFilter(const std::vector<int> & img, int width,
     int height, int radius, float sigma, int count_thread) {
     std::vector<int> resultImage(height * width);

@@ -4,6 +4,9 @@
 #include <vector>
 #include "../../../modules/task_1/podskrebko_seq/filter_gaussa_block.h"
 
+
+// Вычисление координат, размеров блоков, создание ядра и распаралл.-е вызываются
+
 std::vector<int> gaussianFilterSeq(const std::vector<int> & img, int width, int height, int radius, float sigma) {
     std::vector<int> resultImage(height * width);
     int size = 2 * radius + 1;
@@ -17,6 +20,9 @@ std::vector<int> gaussianFilterSeq(const std::vector<int> & img, int width, int 
     }
     return resultImage;
 }
+
+// Создание Ядра Гаусса
+
 std::vector<float> createGaussianKernel(int radius, float sigma) {
     int size = 2 * radius + 1;
     std::vector<float> kernel(size * size);
@@ -34,6 +40,8 @@ std::vector<float> createGaussianKernel(int radius, float sigma) {
     }
     return kernel;
 }
+
+// Вычисление цвета пикселя
 
 int calculateNewPixelColor(std::vector<int> img, int width, int height,
     int x, int y, int radius, std::vector<float> kernel) {

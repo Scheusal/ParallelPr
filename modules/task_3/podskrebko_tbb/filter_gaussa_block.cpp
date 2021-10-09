@@ -43,7 +43,9 @@ class GaussianParallel {
         block_height(block_height){}
 };
 
-std::vector<int> gaussianFilter(const std::vector<int> & img, int width,
+// ‘ункци€, реализующа€ TBB версию, здесь вычисл€ютс€ координаты + размеры блоков, вызываютс€ функции создани€ €дра и распаралл.-€
+
+std::vector<int> gaussianFilter(const std::vector<int> & img, int width, 
     int height, int radius, float sigma, int count_thread) {
     std::vector<int> res(img);
     int size = 2 * radius + 1;
